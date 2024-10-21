@@ -21,7 +21,5 @@ export class CategoryService {
   }
 
   // Fetch products based on search key
-  getProductBykey(searchKey: string) {
-    return this.http.get(`${this.productSearchUrl}${searchKey}`);
-  }
+  
 }
