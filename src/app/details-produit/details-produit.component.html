@@ -2,7 +2,26 @@
   <div class="row">
     <!-- Product Image -->
     <div class="col-md-6">
-      <img [src]="product.images[0]" class="img-fluid" alt="{{ product.title }}">
+      <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div
+            *ngFor="let image of product.images; let i = index"
+            class="carousel-item"
+            [ngClass]="{ 'active': i === 0 }"
+          >
+            <img [src]="image" class="d-block w-100 img-fluid" alt="{{ product.title }}" />
+          </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
     </div>
 
     <!-- Product Details -->
@@ -10,16 +29,97 @@
       <h2>{{ product.title }}</h2>
       <p class="text-muted">{{ product.description }}</p>
       <h4>{{ product.price }} $</h4>
-
+      <span [ngStyle]="{ color: getColor() }">{{ getState() }}</span>
+      <br/>
+      <!-- Add to Cart Button -->
+      <a class="btn btn-primary" (click)="addToPanier()">Add To Panier</a>
 
     </div>
-  </div>
 
-  <!-- Additional Information or Specifications -->
-  <div class="row mt-4">
-    <div class="col">
-      <h5>Specifications</h5>
-      <p>Some detailed specifications about the product could go here.</p>
+
+    <div class="col-md-6">
+      <h5>User Comments</h5>
+
+      <!-- Display Comments -->
+      <div *ngIf="comments.length > 0">
+        <ul class="list-group">
+          <li *ngFor="let comment of comments" class="list-group-item">
+            <div class="d-flex justify-content-between">
+              <!-- User Name -->
+              <strong>{{ comment.user.fullName }}</strong>
+              <!-- Comment Date -->
+              <span>{{ comment.date.getFullYear()}}-{{comment.date.getMonth() +1}}-{{comment.date.getDate() }}</span>
+            </div>
+            <!-- Comment Text -->
+            <p>{{ comment.comment }}</p>
+            <span *ngFor="let star of [1, 2, 3, 4, 5]" class="star" [ngClass]="{ 'filled': star <= comment.rating }">
+          &#9733;
+        </span>
+            <br />
+          </li>
+        </ul>
+      </div>
+
+      <!-- If no comments yet -->
+      <div *ngIf="comments.length === 0" class="mt-3">
+        <p>No comments yet. Be the first to comment!</p>
+      </div>
+
+      <!-- Button to Show/Hide the Comment Form -->
+      <div class="mt-4">
+        <button class="btn btn-primary" (click)="toggleForm()">
+          {{ showForm ? 'Cancel' : 'Leave a Comment' }}
+        </button>
+      </div>
+
+      <!-- Comment Form (Initially Hidden) -->
+      <div class="mb-4 mt-3" *ngIf="showForm">
+        <form (ngSubmit)="addComment()" [formGroup]="commentForm">
+          <!-- Comment Input -->
+          <div class="mb-3">
+            <label for="comment" class="form-label">Your Comment</label>
+            <textarea
+              id="comment"
+              class="form-control"
+              formControlName="comment"
+              rows="3"
+              required
+            ></textarea>
+          </div>
+
+
+          <!-- Star Rating -->
+          <div class="mb-3">
+            <label class="form-label">Rating</label><br />
+            <span
+              *ngFor="let star of [1, 2, 3, 4, 5]"
+              (click)="setRating(star)"
+              class="star"
+              [ngClass]="{ 'filled': star <= commentForm.controls['rating'].value }"
+            >
+            &#9733;
+            </span>
+          </div>
+
+
+          <!-- User Input -->
+          <div class="mb-3">
+            <label for="user" class="form-label">Your Name</label>
+            <input
+              id="user"
+              type="text"
+              class="form-control"
+              formControlName="user"
+              required
+            />
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-secondary" [disabled]="commentForm.invalid">
+            Submit Comment
+          </button>
+        </form>
+      </div>
     </div>
+
   </div>
-</div>
