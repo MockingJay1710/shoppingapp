@@ -5,7 +5,7 @@ import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {Router, RouterLink, RouterOutlet} from "@angular/router";
 import {ProduitService} from "../produit.service";
 import {SharedService} from "../shared-service.service";
-import {AuthService} from "../auth.service";
+import {FirebaseAuthService} from "../firebase-auth.service";
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -27,14 +27,15 @@ export class NavbarComponent implements OnInit {
     private categoryService: CategoryService,
     private productService: ProduitService,
     private sharedService: SharedService,
-    private authService: AuthService,
-    private router: Router
+
+    private router: Router,
+    private auth: FirebaseAuthService
   ) {}
   signIn() {
     this.router.navigate(['/signin']);
   }
   signOut() {
-    this.authService.logout();
+    this.auth.logout();
     this.router.navigate(['/']);
   }
 
@@ -49,7 +50,7 @@ export class NavbarComponent implements OnInit {
       this.products = data.products;
     });
 
-    this.authService.isAuth$.subscribe(isAuthenticated => {
+    this.auth.isAuth$.subscribe(isAuthenticated => {
       this.loggedIn = isAuthenticated;
     });
   }

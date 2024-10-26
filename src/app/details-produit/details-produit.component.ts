@@ -6,8 +6,8 @@ import { ProduitService } from "../produit.service";
 import {NgClass, NgForOf, NgIf, NgStyle} from "@angular/common";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {User} from "../models/User";
-import {AuthService} from "../auth.service";
 import {myComment} from "../models/Comment";
+import {FirebaseAuthService} from "../firebase-auth.service";
 
 @Component({
   selector: 'app-details-produits',
@@ -34,7 +34,7 @@ export class DetailsProduitsComponent implements OnInit {
     private produitService: ProduitService,
     private sharedService: SharedService,
     fb: FormBuilder,
-    private authService: AuthService,
+    private authService: FirebaseAuthService,
     private router: Router
   ) {
     this.commentForm = fb.group({
@@ -66,6 +66,16 @@ export class DetailsProduitsComponent implements OnInit {
         this.isLoggedIn = isAuthenticated;
       }
     );
+    const storedComments = localStorage.getItem(`comments_${productId}`);
+    if (storedComments) {
+      this.comments = JSON.parse(storedComments) || [];
+    }
+
+    this.authService.isAuth$.subscribe(
+      (isAuthenticated) => {
+        this.isLoggedIn = isAuthenticated;
+      }
+    );
   }
 
   addComment() {
@@ -80,6 +90,12 @@ export class DetailsProduitsComponent implements OnInit {
 
       // Push the new comment to the comments array
       this.comments.push(newComment);
+
+      // Save comments to local storage
+      const productId = this.route.snapshot.paramMap.get('id');
+      if (productId) {
+        localStorage.setItem(`comments_${productId}`, JSON.stringify(this.comments));
+      }
 
       // Reset the form and hide the comment form
       this.commentForm.reset()

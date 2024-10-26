@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
 import {FormsModule} from "@angular/forms";
-import {NgIf} from "@angular/common"; // Assuming you have an auth service that holds user data
+import {NgIf} from "@angular/common";
+import {FirebaseAuthService} from "../firebase-auth.service"; // Assuming you have an auth service that holds user data
 
 @Component({
   selector: 'app-user-profile',
@@ -21,7 +21,8 @@ export class UserProfileComponent {
   };
   isEditing = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+              private auth: FirebaseAuthService) {}
 
   ngOnInit(): void {
     this.getUserProfile();
@@ -29,7 +30,7 @@ export class UserProfileComponent {
 
   // Method to retrieve user profile (example from AuthService)
   getUserProfile() {
-    const userData = this.authService.getUser(); // This should retrieve the user data
+    const userData = this.auth.getUser(); // This should retrieve the user data
     if (userData) {
       this.user.name = userData.name;
       this.user.email = userData.email;
@@ -45,7 +46,7 @@ export class UserProfileComponent {
   // Method to save profile changes
   saveProfile() {
     // Save logic, e.g., send updated data to the backend via AuthService
-    this.authService.updateUser(this.user);
+    this.auth.updateUser(this.user);
     this.isEditing = false;
   }
 

@@ -2,8 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import { LignePanier } from '../models/LignePanier';
 import {FormsModule} from "@angular/forms";
 import {SharedService} from "../shared-service.service";
-import {AuthService} from "../auth.service";
 import {Router} from "@angular/router";
+import {FirebaseAuthService} from "../firebase-auth.service";
 
 @Component({
   selector: 'app-panier',
@@ -17,7 +17,7 @@ import {Router} from "@angular/router";
 export class PanierComponent implements OnInit{
   @Input() items: LignePanier[] = [];
   constructor(private sharedService: SharedService,
-              private authService: AuthService,
+              private authService: FirebaseAuthService,
               private router: Router) {
   }
 

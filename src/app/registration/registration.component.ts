@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {FormsModule} from "@angular/forms";
-import {AuthService} from "../auth.service";
 import {Router} from "@angular/router";
 import {FirebaseAuthService} from "../firebase-auth.service";
 
@@ -18,7 +17,7 @@ export class RegistrationComponent {
   password: string = '';
   fullName: string = '';
 
-  constructor(private authService: AuthService,
+  constructor(
               private router: Router,
               private auth: FirebaseAuthService) {
   }

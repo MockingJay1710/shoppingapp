@@ -21,5 +21,5 @@ export class CategoryService {
   }
 
   // Fetch products based on search key
-  
+
 }

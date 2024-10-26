@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {FormsModule} from "@angular/forms";
-import {AuthService} from "../auth.service";
 import {Router, RouterLink} from "@angular/router";
 import {FirebaseAuthService} from "../firebase-auth.service";
 
@@ -19,7 +18,7 @@ export class AuthentificationComponent {
   password: string = '';
   rememberMe: boolean = false;
 
-  constructor(private authService: AuthService,
+  constructor(
               private router: Router,
               private auth: FirebaseAuthService) {
   }
@@ -29,7 +28,7 @@ export class AuthentificationComponent {
       const token = res.user.multiFactor.user.accessToken;
       localStorage.setItem('accessToken', token);
     });
-    this.router.navigate(['/home']);
+    this.router.navigate(['/']);
   }
 
 
