@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, provideHttpClient, withFetch} from '@angular/common/http';
 import {ProduitService} from "./produit.service";
 import {CategoryService} from "./navbar/category.service";
 import {SharedService} from "./shared-service.service";
@@ -30,7 +30,13 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(AngularFireModule.initializeApp(firebaseConfig)),
     importProvidersFrom(AngularFireAuth),
     importProvidersFrom(AngularFireAuthModule),
-    FirebaseAuthService
+    FirebaseAuthService,
+    [{
+      provide: HTTP_INTERCEPTORS,
+      useClass: FirebaseAuthService,
+      multi: true
+    }]
+
   ]
 };
 
