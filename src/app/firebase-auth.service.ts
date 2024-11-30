@@ -68,4 +68,9 @@ export class FirebaseAuthService {
   private isBrowser(): boolean {
     return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
   }
+
+  async getUserId(): Promise<string | null> {
+    const user = await this.auth.currentUser;
+    return user ? user.uid : null;
+  }
 }

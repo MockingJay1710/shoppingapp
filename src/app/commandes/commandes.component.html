@@ -1,0 +1,30 @@
+<div class="commandes-container" *ngIf="commandes$ | async as commandes; else loading">
+  <h2>Validated Orders</h2>
+
+  <div *ngFor="let commande of commandes; let i = index" class="commande-card">
+    <div class="order-header">
+      <h3>Order #{{ i + 1 }}</h3>
+      <hr class="separator" />
+    </div>
+
+    <div class="commande-info">
+      <p>Date: {{ commande.dateCommande | date: 'medium' }}</p>
+      <p class="total-amount">Total Amount: {{ commande.montantTotal | currency }}</p>
+    </div>
+
+    <ul>
+      <li *ngFor="let item of commande.details" class="product-item">
+        <img [src]="item.produit.images[0]" alt="Product Image" class="product-image" />
+        <div class="product-details">
+          <span>Product ID: {{ item.produit.id }}</span>
+          <span>Quantity: {{ item.quantite }}</span>
+          <span>Price: {{ item.produit.price | currency }}</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<ng-template #loading>
+  <p class="loading">Loading orders...</p>
+</ng-template>

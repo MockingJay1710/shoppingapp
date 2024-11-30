@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
-import {HTTP_INTERCEPTORS, provideHttpClient, withFetch} from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import {ProduitService} from "./produit.service";
 import {CategoryService} from "./navbar/category.service";
 import {SharedService} from "./shared-service.service";
@@ -12,6 +12,11 @@ import {AuthGuardService} from "./auth-guard.service";
 import {AngularFireModule} from "@angular/fire/compat";
 import {AngularFireAuth, AngularFireAuthModule} from "@angular/fire/compat/auth";
 import {FirebaseAuthService} from "./firebase-auth.service";
+import {getFirestore, provideFirestore} from "@angular/fire/firestore";
+import {FirestoreService} from "./firestore.service";
+import {provideFirebaseApp} from "@angular/fire/app";
+import initializeApp = firebase.initializeApp;
+import firebase from 'firebase/compat/app';
 
 
 const firebaseConfig = {
@@ -31,13 +36,12 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(AngularFireAuth),
     importProvidersFrom(AngularFireAuthModule),
     FirebaseAuthService,
-    [{
-      provide: HTTP_INTERCEPTORS,
-      useClass: FirebaseAuthService,
-      multi: true
-    }]
+    provideFirebaseApp(() => initializeApp(firebaseConfig)),
 
+    provideFirestore(() => getFirestore()),
+    FirestoreService
   ]
 };
+
 
 

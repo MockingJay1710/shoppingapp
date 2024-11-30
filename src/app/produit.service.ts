@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Product } from "./models/Product";
 import { Observable, of } from 'rxjs';
+import {LignePanier} from "./models/LignePanier";
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,10 @@ export class ProduitService {
     } else {*/
       // If product is not found in the local array, fetch it from the API (assuming API supports this)
       return this.http.get<Product>(`${this.searchQuery}/${id}`);
+
+  }
+
+  addCommande (userId:string, montant:number, details: Array<LignePanier>) {
 
   }
 }

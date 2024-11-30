@@ -4,21 +4,23 @@ import {FormsModule} from "@angular/forms";
 import {SharedService} from "../shared-service.service";
 import {Router} from "@angular/router";
 import {FirebaseAuthService} from "../firebase-auth.service";
+import {FirestoreService} from "../firestore.service";
 
 @Component({
   selector: 'app-panier',
-  standalone: true,
   imports: [
     FormsModule
   ],
   templateUrl: './panier.component.html',
   styleUrl: './panier.component.css',
+  standalone: true
 })
 export class PanierComponent implements OnInit{
   @Input() items: LignePanier[] = [];
   constructor(private sharedService: SharedService,
               private authService: FirebaseAuthService,
-              private router: Router) {
+              private router: Router,
+              private fireStoreService :FirestoreService) {
   }
 
   ngOnInit(): void {
@@ -47,13 +49,26 @@ export class PanierComponent implements OnInit{
     this.items.splice(index, 1);
   }
 
-  validerPanier() {
+  async validerPanier() {
     if (this.authService.isLoggedIn()) {
-      alert('Panier validé avec succès!');
+      const userId = await this.authService.getUserId();
+      if (userId) {
+        const montant = this.calculateTotal();
+        const details = this.items;
+
+        // Use CommandeService to add the order
+        this.fireStoreService.addCommande(userId, montant, details);
+
+        alert('Panier validé avec succès!');
+        this.items = [];  // Clear the cart after validation
+      } else {
+        console.log("User ID could not be retrieved.");
+      }
     } else {
       this.router.navigate(['/signin']);
     }
   }
+
 
   increaseQuantity(index: number) {
     this.items[index].quantite += 1;

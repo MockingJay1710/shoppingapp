@@ -6,6 +6,7 @@ import {AuthGuardService} from "./auth-guard.service";
 import {AuthentificationComponent} from "./authentification/authentification.component";
 import {UserProfileComponent} from "./user-profile/user-profile.component";
 import {RegistrationComponent} from "./registration/registration.component";
+import {CommandesComponent} from "./commandes/commandes.component";
 
 export const routes: Routes = [
   {path : '', component : ListProduitsComponent},
@@ -13,7 +14,9 @@ export const routes: Routes = [
   { path: 'product/:id', component: DetailsProduitsComponent },
   { path: 'signin', component: AuthentificationComponent },
   { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuardService] },
-  { path: 'signup', component: RegistrationComponent }
+  { path: 'signup', component: RegistrationComponent },
+  { path: 'commandes', component: CommandesComponent, canActivate: [AuthGuardService] },
+
 
 
 ];

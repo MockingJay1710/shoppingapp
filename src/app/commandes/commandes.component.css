@@ -1,0 +1,90 @@
+/* Styles for the main container, title, and card */
+.commandes-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.commande-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.order-header h3 {
+  font-size: 1.2rem;
+  color: #333;
+  margin: 0 0 10px;
+}
+
+.separator {
+  border: none;
+  border-top: 2px solid #ddd;
+  margin: 0.5rem 0 1rem;
+}
+
+/* Styling for order details */
+.commande-info p {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  color: #555;
+}
+
+.commande-info .total-amount {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Product item styles */
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 1rem 0 0;
+}
+
+.product-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin: 5px 0;
+}
+
+.product-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.product-details {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.product-details span {
+  margin: 2px 0;
+}
+
+/* Loading message */
+.loading {
+  text-align: center;
+  color: #777;
+  font-size: 1rem;
+}
